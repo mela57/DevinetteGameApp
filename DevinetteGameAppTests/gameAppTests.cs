@@ -3,12 +3,14 @@ using static DevinetteGameApp.DevinetteGame;
 namespace DevinetteGameAppTests
 {
     [TestClass]
+
     public class gameAppTests
     {
         private Devinette _game;
 
         [TestInitialize]
-        public void Setup()
+
+        public void Init()
         {
             _game = new Devinette();
         }
@@ -39,13 +41,20 @@ namespace DevinetteGameAppTests
         {
             // Arrange
             var field = typeof(Devinette).GetField("_targetNumber", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field.SetValue(_game, 50); 
+            if (field == null)
+            {
+                throw new InvalidOperationException("Le champ '_targetNumber' est introuvable dans la classe Devinette.");
+            }
+            field.SetValue(_game, 50);
 
             // Act
             var result = _game.Guess(50);
 
             // Assert
             Assert.AreEqual("Bravo, vous avez trouvé le bon nombre !", result);
+
+  
+
         }
 
 
